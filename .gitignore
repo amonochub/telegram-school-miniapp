@@ -1,0 +1,30 @@
+# Node
+node_modules/
+.env
+
+# Logs
+logs/
+*.log
+
+# Build
+build/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db 
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+.flaskenv
+instance/
+.mypy_cache/
+.pytest_cache/
+
+# Flask
+*.db 
