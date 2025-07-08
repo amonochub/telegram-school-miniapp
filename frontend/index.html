@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ГБОУ Школа в Капотне</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6B46C1;
+            --secondary-color: #F59E0B;
+            --background-color: #FFFFFF;
+            --text-color: #1F2937;
+            --text-secondary: #6B7280;
+            --border-radius: 12px;
+            --spacing-unit: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--tg-theme-bg-color, var(--background-color));
+            color: var(--tg-theme-text-color, var(--text-color));
+            line-height: 1.6;
+            padding: var(--spacing-unit);
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: calc(var(--spacing-unit) * 1.5);
+            background: linear-gradient(135deg, var(--primary-color), #553C9A);
+            border-radius: var(--border-radius);
+            color: white;
+            margin-bottom: var(--spacing-unit);
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .school-logo {
+            font-size: 3em;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .school-name {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .school-subtitle {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .role-selector {
+            margin-bottom: calc(var(--spacing-unit) * 1.5);
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        .role-tabs {
+            display: flex;
+            background: var(--tg-theme-secondary-bg-color, white);
+            border-radius: var(--border-radius);
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .role-tab {
+            flex: 1;
+            padding: 12px 8px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .role-tab.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-unit);
+            margin-bottom: calc(var(--spacing-unit) * 2);
+        }
+
+        .menu-item {
+            background: var(--tg-theme-secondary-bg-color, white);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: calc(var(--spacing-unit) * 1.5);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-family: 'Montserrat', sans-serif;
+            animation: slideInUp 0.8s ease-out both;
+        }
+
+        .menu-item:nth-child(1) { animation-delay: 0.3s; }
+        .menu-item:nth-child(2) { animation-delay: 0.4s; }
+        .menu-item:nth-child(3) { animation-delay: 0.5s; }
+        .menu-item:nth-child(4) { animation-delay: 0.6s; }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .menu-icon {
+            font-size: 2.5em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .menu-text {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .quick-info {
+            background: var(--tg-theme-secondary-bg-color, white);
+            border-radius: var(--border-radius);
+            padding: calc(var(--spacing-unit) * 1.25);
+            margin-bottom: var(--spacing-unit);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: slideInUp 0.8s ease-out 0.7s both;
+        }
+
+        .quick-info h3 {
+            margin-bottom: var(--spacing-unit);
+            color: var(--primary-color);
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            animation: slideInUp 0.8s ease-out 0.8s both;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: var(--spacing-unit);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .primary-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .secondary-btn {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 480px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .role-tabs {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="school-logo">🏫</div>
+            <div class="school-name">ГБОУ Школа в Капотне</div>
+            <div class="school-subtitle">Юго-Восточный АО г. Москвы</div>
+        </div>
+
+        <div class="role-selector">
+            <div class="role-tabs">
+                <button class="role-tab active" onclick="switchRole('student')">Ученик</button>
+                <button class="role-tab" onclick="switchRole('parent')">Родитель</button>
+                <button class="role-tab" onclick="switchRole('teacher')">Учитель</button>
+            </div>
+        </div>
+
+        <div class="menu-grid">
+            <button class="menu-item" onclick="openSection('schedule')">
+                <span class="menu-icon">📅</span>
+                <div class="menu-text">Расписание</div>
+            </button>
+            <button class="menu-item" onclick="openSection('homework')">
+                <span class="menu-icon">📝</span>
+                <div class="menu-text">Домашние задания</div>
+            </button>
+            <button class="menu-item" onclick="openSection('grades')">
+                <span class="menu-icon">📊</span>
+                <div class="menu-text">Оценки</div>
+            </button>
+            <button class="menu-item" onclick="openSection('announcements')">
+                <span class="menu-icon">📢</span>
+                <div class="menu-text">Объявления</div>
+            </button>
+        </div>
+
+        <div class="quick-info">
+            <h3>📊 Быстрая информация</h3>
+            <div class="info-item">
+                <span>Уроков сегодня:</span>
+                <span class="info-value">6</span>
+            </div>
+            <div class="info-item">
+                <span>Следующий урок:</span>
+                <span class="info-value">Математика</span>
+            </div>
+            <div class="info-item">
+                <span>Новых заданий:</span>
+                <span class="info-value">3</span>
+            </div>
+            <div class="info-item">
+                <span>Средний балл:</span>
+                <span class="info-value">4.4</span>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn primary-btn" onclick="openFeedback()">
+                💬 Обратная связь
+            </button>
+            <button class="action-btn secondary-btn" onclick="openNotifications()">
+                🔔 Уведомления
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        let currentRole = 'student';
+
+        function switchRole(role) {
+            currentRole = role;
+            
+            document.querySelectorAll('.role-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function openSection(section) {
+            const data = {
+                action: 'open_section',
+                section: section,
+                role: currentRole,
+                user_id: tg.initDataUnsafe?.user?.id
+            };
+            
+            tg.sendData(JSON.stringify(data));
+        }
+
+        function openFeedback() {
+            const data = {
+                action: 'feedback',
+                role: currentRole,
+                user_id: tg.initDataUnsafe?.user?.id
+            };
+            
+            tg.sendData(JSON.stringify(data));
+        }
+
+        function openNotifications() {
+            const data = {
+                action: 'notifications',
+                role: currentRole,
+                user_id: tg.initDataUnsafe?.user?.id
+            };
+            
+            tg.sendData(JSON.stringify(data));
+        }
+
+        // Настройка главной кнопки Telegram
+        tg.MainButton.text = "🏠 Главное меню";
+        tg.MainButton.show();
+        tg.MainButton.onClick(() => {
+            const data = {
+                action: 'main_menu',
+                role: currentRole,
+                user_id: tg.initDataUnsafe?.user?.id
+            };
+            tg.sendData(JSON.stringify(data));
+        });
+    </script>
+</body>
+</html>
